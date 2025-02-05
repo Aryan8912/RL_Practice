@@ -98,4 +98,4 @@ class DataCollatorForPreference(DataCollatorMixin):
             pixel_attention_mask = [torch.tensor(example["pixel_attention_mask"]) for example in examples]
         if "pixel_attention_mask" in example[0]:
             pixel_attention_mask = [torch.tensor(example["pixel_attention_mask"]) for example in examples]
-        
+# 136
