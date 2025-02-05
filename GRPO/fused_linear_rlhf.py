@@ -233,7 +233,7 @@ if len(aggregated_metrics) == 0:
 
                                                  grad_weight = grad_weight * grad_output
 
-                                                return (
+            return (
             grad_input,
             grad_weight,
             None,  # grad_attention_mask
