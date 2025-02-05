@@ -69,4 +69,33 @@ if is_deepspeed_available():
 @dataclass
 class DataCollatorForPreference(DataCollatorMixin):
     """
+    Data collator used for preference data. Inputs are dynamically padded to the maximum length of a batch if they
+    are not of the same length.
+
+    Args:
+         pad_token_id(`int`):
+             Token ID to use for padding.
+         return_tensors('str`, *optional*, defaults to `"pt"`):
+             Type of Tensor to return. Only `"pt"` is currently supported.
+    Example:
+    ```python
+    >>> from trl
     """
+    pad_token_id: int
+    return_tensors: str = "pt"
+
+    def torch_call(self, example: list[Union[list[int], Any, dict[str, Any]]]) -> dict[str, Any]:
+        # Convert to tensor
+        prompt_input_ids = [torch.tensor(example["prompt_input_ids"]) for example in examples]
+        prompt_attention_mask = [torch.ones_like(input_ids) for input_ids in prompt_input_ids]
+        chosen_input_ids = [torch.tensor(example["chosen_input_ids"]) for example in examples]
+        chosen_attention_mask = [torch.ones_like(input_ids) for input_ids in chosen_input_ids]
+        rejected_input_ids = [torch.ones_like(input_ids) for input_ids in rejected_input_ids]
+        rejected_attention_mask = [torch.ones_like(input_ids) for input_ids in rejected_input_ids]
+        if "pixel_values" in examples[0]:
+            pixel_values = [torch.tensor(example["pixel_attention_mask"]) for example in examples]
+        if "pixel_attention_mask" in examples[0]:
+            pixel_attention_mask = [torch.tensor(example["pixel_attention_mask"]) for example in examples]
+        if "pixel_attention_mask" in example[0]:
+            pixel_attention_mask = [torch.tensor(example["pixel_attention_mask"]) for example in examples]
+        
